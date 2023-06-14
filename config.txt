@@ -1,0 +1,20 @@
+# Fichier de configuration
+
+# Dimensions de la grille
+WIDTH=15
+HEIGHT=10
+
+# Cases initialement en feu
+BURNING_CELL=3,4
+BURNING_CELL=5,6
+BURNING_CELL=7,8
+BURNING_CELL=9,1
+BURNING_CELL=5,9
+BURNING_CELL=6,2
+BURNING_CELL=15,10
+BURNING_CELL=9,4
+BURNING_CELL=4,2
+
+
+# Probabilité de propagation
+PROPAGATION_PROBABILITY=0.325
