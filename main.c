@@ -10,8 +10,8 @@
 
 // Structure pour stocker les coordonnées des cases en feu
 typedef struct {
-    int row;
     int col;
+    int row;
 } BurningCell;
 
 // Fonction pour extraire la valeur d'une clé dans une ligne de configuration
@@ -30,7 +30,7 @@ BurningCell extractBurningCell(const char *line) {
     char *coordString = strchr(line, '=');
     if (coordString != NULL) {
         coordString++; // Ignorer le "=" et avancer vers les coordonnées
-        sscanf(coordString, "%d,%d", &cell.row, &cell.col);
+        sscanf(coordString, "%d,%d", &cell.col, &cell.row);
     }
     else {
         cell.row = -1;
@@ -52,8 +52,8 @@ void initForest(int height, int width, int numBurning, BurningCell *burningCells
     for (int i = 0; i < numBurning; i++) {
         int row = burningCells[i].row;
         int col = burningCells[i].col;
-        if (row >= 0 && row < height && col >= 0 && col < width) {
-            forest[row][col] = BURNING;
+        if (row >= 0 && row <= height && col >= 0 && col <= width) {
+            forest[col-1][row-1] = BURNING;
         }
     }
 }
@@ -163,7 +163,7 @@ int main() {
         } else if (strncmp(line, "BURNING_CELL", 12) == 0) {
             BurningCell cell = extractBurningCell(line);
             if (cell.row != -1 && cell.col != -1) {
-                if (cell.col <= height && cell.row <= width) {
+                if (cell.col <= width && cell.row <= height) {
                     numBurning++;
                     burningCells = realloc(burningCells, numBurning * sizeof(BurningCell));
                     burningCells[numBurning - 1] = cell;
@@ -185,7 +185,6 @@ int main() {
     printf("Nombre de cases impossibles : %2d \n", numOutOfRange);
 
     int forest[height][width];
-
     // Initialisation de la forêt avec un nombre donné de cases en feu
     initForest(height, width, numBurning, burningCells, propagationProbability, forest);
 
